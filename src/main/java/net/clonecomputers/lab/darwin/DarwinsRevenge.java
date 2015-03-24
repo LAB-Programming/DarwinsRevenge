@@ -1,4 +1,4 @@
-package net.clonecomputers.lab.DarwinRevenge;
+package net.clonecomputers.lab.darwin;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
