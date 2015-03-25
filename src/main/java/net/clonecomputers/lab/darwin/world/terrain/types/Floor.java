@@ -1,10 +1,9 @@
 package net.clonecomputers.lab.darwin.world.terrain.types;
 
-import net.clonecomputers.lab.darwin.world.*;
 import net.clonecomputers.lab.darwin.world.terrain.*;
 
-public class Floor implements Terrain {
+public class Floor extends Terrain {
 	static {
-		ObjectManager.getTerrainManager().registerType(Floor.class);
+		registerType(0, Floor.class);
 	}
 }

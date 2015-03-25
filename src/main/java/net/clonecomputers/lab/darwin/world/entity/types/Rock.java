@@ -1,10 +1,9 @@
 package net.clonecomputers.lab.darwin.world.entity.types;
 
-import net.clonecomputers.lab.darwin.world.*;
 import net.clonecomputers.lab.darwin.world.entity.*;
 
-public class Rock implements Entity {
+public class Rock extends Entity {
 	static {
-		ObjectManager.getEntityManager().registerType(Rock.class);
+		registerType(0, Rock.class);
 	}
 }

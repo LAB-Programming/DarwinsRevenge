@@ -1,5 +1,7 @@
 package net.clonecomputers.lab.darwin.world.terrain;
 
-public interface Terrain {
+import net.clonecomputers.lab.darwin.world.*;
+
+public abstract class Terrain extends WorldObject {
 
 }
