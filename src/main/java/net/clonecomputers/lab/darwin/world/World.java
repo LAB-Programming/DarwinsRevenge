@@ -25,6 +25,7 @@ public class World {
 		Level level = levels.get(levelNumber);
 		if(level == null) {
 			level = new Level(generator.getGenerator(levelNumber), levelNumber);
+			levels.put(levelNumber, level);
 		}
 		return level;
 	}

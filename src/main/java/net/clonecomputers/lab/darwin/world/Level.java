@@ -18,6 +18,7 @@ public class Level {
 		Tile t = tiles.get(x, y);
 		if(t == null) {
 			t = generator.generateTile(x, y);
+			tiles.put(x, y, t);
 		}
 		return t;
 	}
