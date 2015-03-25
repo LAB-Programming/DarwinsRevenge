@@ -10,6 +10,7 @@ public abstract class AbstractTileset implements Tileset {
 	
 	@Override
 	public void drawTileImage(Tile t, Graphics g) {
+		System.out.println("Drawing "+t+" at "+g.getClipBounds());
 		drawTerrain(t.getTerrain(), g);
 		for(Entity e: t.getEntities()) {
 			drawEntity(e, g);

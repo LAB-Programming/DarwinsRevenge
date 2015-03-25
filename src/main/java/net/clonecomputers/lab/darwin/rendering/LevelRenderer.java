@@ -52,6 +52,7 @@ public class LevelRenderer extends JPanel {
 	public void setTileset(Tileset t) {
 		tileset = t;
 		tileSize = t.getTileDimensions();
+		repaint();
 	}
 	
 	public void repaintTiles(int x, int y, int width, int height) {
@@ -63,19 +64,20 @@ public class LevelRenderer extends JPanel {
 	}
 	
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		Rectangle areaToDraw = g.getClipBounds();
-		int minX = (int)Math.floor((getWidth()/2 - areaToDraw.x) / (double)tileSize.width);
-		int maxX = (int)Math.ceil((getWidth()/2 - areaToDraw.x + areaToDraw.width) / (double)tileSize.width);
-		int minY = (int)Math.floor((getHeight()/2 - areaToDraw.y) / (double)tileSize.height);
-		int maxY = (int)Math.ceil((getHeight()/2 - areaToDraw.y + areaToDraw.height) / (double)tileSize.height);
+		int minX = (int)Math.floor((areaToDraw.x - getWidth()/2) / (double)tileSize.width) + centerX;
+		int maxX = (int)Math.ceil((areaToDraw.x - getWidth()/2 + areaToDraw.width) / (double)tileSize.width) + centerX;
+		int minY = (int)Math.floor((areaToDraw.y - getHeight()/2) / (double)tileSize.height) + centerY;
+		int maxY = (int)Math.ceil((areaToDraw.y - getHeight()/2 + areaToDraw.height) / (double)tileSize.height) + centerY;
+		System.out.println("rendering from ("+minX+","+minY+") to ("+maxX+","+maxY+")");
 		for(int x = minX; x <= maxX; x++) {
 			for(int y = minY; y <= maxY; y++) {
-				int gx = (x - centerX) * tileSize.width + getWidth() / 2;
-				int gy = (centerY - y) * tileSize.height + getHeight() / 2;
+				int gx = ((x - centerX) * tileSize.width) + (getWidth() / 2);
+				int gy = (getHeight() / 2) - ((y - centerY) * tileSize.height);
 				Graphics shiftedG = g.create(gx, gy, tileSize.width, tileSize.height);
-				((Graphics2D)shiftedG).translate(gx, gy);
+				//((Graphics2D)shiftedG).translate(gx, gy); // done by g.create(x, y, width, height)
 				tileset.drawTileImage(levelToRender.getTile(x, y), shiftedG);
 			}
 		}

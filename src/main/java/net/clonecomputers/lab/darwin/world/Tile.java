@@ -30,4 +30,8 @@ public class Tile {
 	public List<Entity> getEntities() {
 		return entities;
 	}
+	
+	public String toString() {
+		return "{"+terrain.getClass().getSimpleName()+": "+entities+"}";
+	}
 }

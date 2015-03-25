@@ -1,23 +1,31 @@
 package net.clonecomputers.lab.darwin;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.lang.reflect.InvocationTargetException;
+import java.awt.image.*;
+import java.lang.reflect.*;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+
+import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.world.*;
+import net.clonecomputers.lab.darwin.world.generate.*;
 
 public class DarwinsRevenge implements Runnable {
+	private LevelRenderer renderer;
+	private World world;
 	
-	private final long NANOS_PER_FRAME = 1000000000/60; // (10^9 / target fps)
+	private final long NANOS_PER_TICK = 1000000000/1; // (10^9 / target tps)
 	
 	private volatile boolean running = true;
 	
-	private int lastFps = -1;
+	private int lastTps = -1;
 	
 	private JFrame window;
 	
 	public DarwinsRevenge() {
+		world = new World(new SimpleWorldGenerator());
+		renderer = new LevelRenderer(world.getLevel(), new SimpleTileset());
+		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				
@@ -37,51 +45,38 @@ public class DarwinsRevenge implements Runnable {
 		window = new JFrame("Darwin's Revenge");
 		window.setIgnoreRepaint(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setContentPane(renderer);
 		window.getContentPane().setPreferredSize(new Dimension(800, 300));
 		window.pack();
-		window.createBufferStrategy(2);
-		window.setResizable(false);
 	}
 
 	@Override
 	public void run() {
 		window.setVisible(true);
+		renderer.repaint();
 		BufferStrategy bs = window.getBufferStrategy();
 		long lastLoopTime = System.nanoTime();
-		long timeSinceFpsCalc = 0;
-		int framesSinceSecond = 0;
+		long timeSinceTpsCalc = 0;
+		int ticksSinceSecond = 0;
 		while (running) {
 			long now = System.nanoTime();
 			long updateLength = now - lastLoopTime;
 			lastLoopTime = now;
 			
-			timeSinceFpsCalc += updateLength;
-			++framesSinceSecond;
-			if (timeSinceFpsCalc > 1000000000) {
-				lastFps = framesSinceSecond;
-				timeSinceFpsCalc = 0;
-				framesSinceSecond = 0;
+			timeSinceTpsCalc += updateLength;
+			++ticksSinceSecond;
+			if (timeSinceTpsCalc > 1000000000) {
+				lastTps = ticksSinceSecond;
+				timeSinceTpsCalc = 0;
+				ticksSinceSecond = 0;
 			}
 			
 			update(updateLength);
 			
-			Graphics2D g = null;
-			try {
-				g = (Graphics2D) bs.getDrawGraphics();
-				// move origin of graphics so that we don't draw behind menubar in windowed mode
-				g.translate(window.getRootPane().getX(), window.getRootPane().getY());
-				render(g);
-			} finally {
-				if (g != null) g.dispose();
-			}
-			if (!bs.contentsLost()) {
-				bs.show();
-			}
+			//renderer.repaint();
 			
 			try {
-				Thread.sleep(
-						Math.max((lastLoopTime-System.nanoTime() + NANOS_PER_FRAME)/1000000, 0L)
-					);
+				Thread.sleep(Math.max((lastLoopTime-System.nanoTime() + NANOS_PER_TICK)/1000000, 0L));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -96,7 +91,7 @@ public class DarwinsRevenge implements Runnable {
 		g.setBackground(Color.WHITE);
 		g.setColor(Color.BLUE);
 		g.clearRect(0, 0, window.getContentPane().getWidth(), window.getContentPane().getHeight());
-		g.drawString("FPS: " + lastFps, 5, 20);
+		g.drawString("TPS: " + lastTps, 5, 20);
 	}
 
 	public static void main(String[] args) {
