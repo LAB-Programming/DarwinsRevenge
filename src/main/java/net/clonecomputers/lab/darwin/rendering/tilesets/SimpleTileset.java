@@ -17,7 +17,6 @@ public class SimpleTileset extends AbstractTileset {
 
 	@Override
 	public void drawTerrain(Terrain t, Graphics g) {
-		System.out.println("drawing "+t);
 		if(t.getClass().equals(Wall.class)) {
 			g.setColor(Color.BLACK);
 		} else {

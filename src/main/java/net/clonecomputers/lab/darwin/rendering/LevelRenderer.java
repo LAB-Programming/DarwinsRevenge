@@ -71,7 +71,6 @@ public class LevelRenderer extends JPanel {
 		int maxX = (int)Math.ceil((areaToDraw.x - getWidth()/2 + areaToDraw.width) / (double)tileSize.width) + centerX;
 		int minY = (int)Math.floor((areaToDraw.y - getHeight()/2) / (double)tileSize.height) + centerY;
 		int maxY = (int)Math.ceil((areaToDraw.y - getHeight()/2 + areaToDraw.height) / (double)tileSize.height) + centerY;
-		System.out.println("rendering from ("+minX+","+minY+") to ("+maxX+","+maxY+")");
 		for(int x = minX; x <= maxX; x++) {
 			for(int y = minY; y <= maxY; y++) {
 				int gx = ((x - centerX) * tileSize.width) + (getWidth() / 2);
