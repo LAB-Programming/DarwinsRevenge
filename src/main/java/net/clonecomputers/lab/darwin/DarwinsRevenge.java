@@ -2,11 +2,13 @@ package net.clonecomputers.lab.darwin;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.io.*;
 import java.lang.reflect.*;
 
 import javax.swing.*;
 
 import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.rendering.tilesets.*;
 import net.clonecomputers.lab.darwin.world.*;
 import net.clonecomputers.lab.darwin.world.generate.*;
 
@@ -24,7 +26,13 @@ public class DarwinsRevenge implements Runnable {
 	
 	public DarwinsRevenge() {
 		world = new World(new SimpleWorldGenerator());
-		renderer = new LevelRenderer(world.getLevel(), new SimpleTileset());
+		try {
+			renderer = new LevelRenderer(world.getLevel(), new ImageTileset("/tileset.png", new Dimension(10,12)));
+		} catch (IllegalArgumentException e1) {
+			throw new RuntimeException(e1);
+		} catch (IOException e1) {
+			throw new RuntimeException(e1);
+		}
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {

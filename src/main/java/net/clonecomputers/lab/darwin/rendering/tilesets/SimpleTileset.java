@@ -1,7 +1,8 @@
-package net.clonecomputers.lab.darwin.rendering;
+package net.clonecomputers.lab.darwin.rendering.tilesets;
 
 import java.awt.*;
 
+import net.clonecomputers.lab.darwin.rendering.*;
 import net.clonecomputers.lab.darwin.world.entity.*;
 import net.clonecomputers.lab.darwin.world.entity.types.*;
 import net.clonecomputers.lab.darwin.world.terrain.*;
