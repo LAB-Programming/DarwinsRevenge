@@ -8,12 +8,13 @@ import com.google.common.collect.*;
 
 public class World {
 	private final WorldGenerator generator;
-	private final List<Level> levels = Lists.newArrayList();
+	private final Map<Integer,Level> levels = Maps.newHashMap();
 	private Level activeLevel;
 	private int activeLevelNumber;
 	
 	public World(WorldGenerator generator) {
 		this.generator = generator;
+		setLevelNumber(0);
 	}
 	
 	public Level getLevel() {
@@ -34,7 +35,7 @@ public class World {
 	
 	public void setLevelNumber(int newLevelNumber) {
 		activeLevelNumber = newLevelNumber;
-		activeLevel = levels.get(newLevelNumber);
+		activeLevel = getLevel(newLevelNumber);
 	}
 	
 	public void goUp() {

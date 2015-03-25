@@ -6,12 +6,17 @@ import javax.swing.*;
 
 import net.clonecomputers.lab.darwin.world.*;
 
-public class LevelRenderer extends JFrame {
+public class LevelRenderer extends JPanel {
 	private Level levelToRender;
 	private Tileset tileset;
 	private Dimension tileSize;
-	private int centerX;
-	private int centerY;
+	private int centerX = 0;
+	private int centerY = 0;
+	
+	public LevelRenderer(Level levelToRender, Tileset tileset) {
+		setTileset(tileset);
+		setLevel(levelToRender);
+	}
 	
 	public void moveTo(int x, int y) {
 		this.centerX = x;
