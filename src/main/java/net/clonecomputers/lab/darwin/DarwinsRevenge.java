@@ -1,15 +1,16 @@
 package net.clonecomputers.lab.darwin;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.lang.reflect.*;
-
-import javax.swing.*;
-
 import net.clonecomputers.lab.darwin.rendering.*;
 import net.clonecomputers.lab.darwin.rendering.tilesets.*;
 import net.clonecomputers.lab.darwin.world.*;
 import net.clonecomputers.lab.darwin.world.generate.*;
+
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import java.lang.reflect.*;
+
+import javax.swing.*;
 
 public class DarwinsRevenge implements Runnable {
 	private LevelRenderer renderer;
@@ -26,12 +27,12 @@ public class DarwinsRevenge implements Runnable {
 	public DarwinsRevenge() {
 		world = new World(new SimpleWorldGenerator());
 		Tileset tileset;
-		tileset = new SimpleTileset();
-		/*try {
+		//tileset = new SimpleTileset();
+		try {
 			tileset = new ImageTileset("/tileset.png", new Dimension(10,12));
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
-		}*/
+		}
 		renderer = new LevelRenderer(world.getLevel(), tileset);
 		
 		try {
