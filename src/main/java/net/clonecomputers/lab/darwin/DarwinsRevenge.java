@@ -2,10 +2,13 @@ package net.clonecomputers.lab.darwin;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import net.clonecomputers.lab.darwin.map.TileMap;
 
 public class DarwinsRevenge implements Runnable {
 	
@@ -16,8 +19,15 @@ public class DarwinsRevenge implements Runnable {
 	private int lastFps = -1;
 	
 	private JFrame window;
+	private TileMap map;
 	
 	public DarwinsRevenge() {
+		try {
+			map = new TileMap("/tileset.png", new Dimension(80, 25));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				
@@ -90,13 +100,17 @@ public class DarwinsRevenge implements Runnable {
 	
 	private void update(long delta) {
 		// TODO update stuff here!
+		map.update(delta);
 	}
 	
 	private void render(Graphics2D g) {
+		map.render(g);
+		/*
 		g.setBackground(Color.WHITE);
 		g.setColor(Color.BLUE);
 		g.clearRect(0, 0, window.getContentPane().getWidth(), window.getContentPane().getHeight());
 		g.drawString("FPS: " + lastFps, 5, 20);
+		*/
 	}
 
 	public static void main(String[] args) {
