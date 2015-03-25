@@ -6,4 +6,9 @@ public class Rock extends Entity {
 	static {
 		registerType(0, Rock.class);
 	}
+	
+	@Override
+	public int getImageId() {
+		return 0x0f;
+	}
 }

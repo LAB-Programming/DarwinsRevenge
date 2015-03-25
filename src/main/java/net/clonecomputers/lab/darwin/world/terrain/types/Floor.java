@@ -6,4 +6,9 @@ public class Floor extends Terrain {
 	static {
 		registerType(0, Floor.class);
 	}
+	
+	@Override
+	public int getImageId() {
+		return 0x00;
+	}
 }

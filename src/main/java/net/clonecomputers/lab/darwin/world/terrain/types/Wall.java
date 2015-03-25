@@ -6,4 +6,9 @@ public class Wall extends Terrain {
 	static {
 		registerType(1, Wall.class);
 	}
+	
+	@Override
+	public int getImageId() {
+		return 0xb1;
+	}
 }

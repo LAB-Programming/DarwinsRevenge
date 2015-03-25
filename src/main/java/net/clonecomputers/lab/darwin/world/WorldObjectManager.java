@@ -27,8 +27,7 @@ public class WorldObjectManager {
 	 * @throws IllegalArgumentException if type is already registered
 	 * @return the id of the new terrain-type
 	 */
-	public void registerType(int id, Class<? extends WorldObject> type, int textureX, int textureY) {
-		//TODO: care about the texture position
+	public void registerType(int id, Class<? extends WorldObject> type) {
 		types.put(id, type);
 	}
 	
