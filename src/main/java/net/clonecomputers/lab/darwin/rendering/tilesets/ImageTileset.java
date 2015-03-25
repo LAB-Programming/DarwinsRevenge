@@ -1,14 +1,13 @@
 package net.clonecomputers.lab.darwin.rendering.tilesets;
 
+import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.world.*;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 
 import javax.imageio.*;
-
-import net.clonecomputers.lab.darwin.rendering.*;
-import net.clonecomputers.lab.darwin.world.entity.*;
-import net.clonecomputers.lab.darwin.world.terrain.*;
 
 
 public class ImageTileset extends AbstractTileset {
@@ -43,7 +42,7 @@ public class ImageTileset extends AbstractTileset {
 	}
 
 	@Override
-	public void drawTerrain(Terrain t, Graphics g) {
+	public void drawWorldObject(WorldObject o, Graphics g) {
 		drawTile(new ImageTile((int) (Math.random()*3)*2 + 10, 2), g);
 	}
 	
@@ -55,11 +54,6 @@ public class ImageTileset extends AbstractTileset {
 				t.getTileX()*tileWidth, t.getTileY()*tileHeight,
 				(t.getTileX()+1)*tileWidth, (t.getTileY()+1)*tileHeight,
 			null);
-	}
-
-	@Override
-	public void drawEntity(Entity e, Graphics g) {
-		// don't draw it
 	}
 	
 }
