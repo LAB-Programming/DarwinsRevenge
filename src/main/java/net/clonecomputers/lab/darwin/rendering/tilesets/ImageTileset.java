@@ -6,7 +6,8 @@ import net.clonecomputers.lab.darwin.world.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
+import java.util.List;
 
 import javax.imageio.*;
 
@@ -16,23 +17,31 @@ public class ImageTileset extends AbstractTileset {
 	private int tileWidth;
 	private int tileHeight;
 	
-	private BufferedImage[] tilesets;
+	private BufferedImage[] tiles;
 	private float zoom = 1;
 	
 	public ImageTileset(Dimension tileSize, String... tilesetFiles)
 			throws IOException, IllegalArgumentException {
-		tilesets = new BufferedImage[tilesetFiles.length];
-		for(int i = 0; i < tilesetFiles.length; i++) {
-			InputStream tilesetStream = this.getClass().getResourceAsStream(tilesetFiles[i]);
+		List<BufferedImage> tiles = new ArrayList<BufferedImage>(tilesetFiles.length * 256);
+		for(String tilesetFile: tilesetFiles) {
+			InputStream tilesetStream = this.getClass().getResourceAsStream(tilesetFile);
 			if (tilesetStream == null) {
-				throw new IllegalArgumentException(tilesetFiles[i] + " does not exist");
+				throw new IllegalArgumentException(tilesetFile + " does not exist");
 			}
-			BufferedImage img = ImageIO.read(tilesetStream);
-			tilesets[i] = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-			Graphics g = tilesets[i].getGraphics();
-			g.drawImage(img, 0, 0, null);
-			g.dispose();
+			BufferedImage tileset = ImageIO.read(tilesetStream);
+			for(int y = 0; y < (tileset.getHeight() / tileSize.height); y++) {
+				for(int x = 0; x < (tileset.getWidth() / tileSize.width); x++) {
+					BufferedImage tile = new BufferedImage(tileSize.width, tileSize.height, BufferedImage.TYPE_INT_RGB);
+					Graphics g = tile.getGraphics();
+					g.drawImage(tileset, 
+							0, 0, tileSize.width, tileSize.height,
+							x * tileSize.width, y * tileSize.height, (x+1) * tileSize.width, (y+1) * tileSize.height, null);
+					g.dispose();
+					tiles.add(tile);
+				}
+			}
 		}
+		this.tiles = tiles.toArray(new BufferedImage[0]);
 		
 		tileWidth = tileSize.width;
 		tileHeight = tileSize.height;
@@ -62,13 +71,12 @@ public class ImageTileset extends AbstractTileset {
 	}
 	
 	public void drawTile(int tileId, BufferedImageOp colorFilter, Graphics g) {
-		int x = tileId % 16, y = (tileId / 16) % 16, z = tileId / 256;
-		BufferedImage coloredTileset = colorFilter.filter(tilesets[z], null);
+		BufferedImage coloredTileset = colorFilter.filter(tiles[tileId], null);
 		g.drawImage(coloredTileset,
 				0, 0,
 				(int) (tileWidth*zoom), (int) (tileHeight*zoom),
-				x*tileWidth, y*tileHeight,
-				(x+1)*tileWidth, (y+1)*tileHeight,
+				0, 0,
+				tileWidth, tileHeight,
 			null);
 	}
 	
