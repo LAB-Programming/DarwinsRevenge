@@ -70,6 +70,15 @@ public class LevelRenderer {
 		paint(g.create(x, y, width, height));
 	}
 	
+	public Point cellToGraphics(int x, int y) {
+		return cellToGraphics(new Point(x, y));
+	}
+	
+	public Point cellToGraphics(Point cell) {
+		return new Point((windowSize.width  / 2) - (tileSize.width  / 2) + ((cell.x - centerX) * tileSize.width ), 
+						 (windowSize.height / 2) - (tileSize.height / 2) + ((centerY - cell.y) * tileSize.height));
+	}
+	
 	public void paint(Graphics g) {
 		Rectangle areaToDraw = g.getClipBounds();
 		if(areaToDraw == null) {
@@ -86,9 +95,8 @@ public class LevelRenderer {
 		int maxY = (int)Math.ceil((areaToDraw.y - windowSize.height/2 + areaToDraw.height) / (double)tileSize.height) + centerY;
 		for(int x = minX; x <= maxX; x++) {
 			for(int y = minY; y <= maxY; y++) {
-				int gx = ((x - centerX) * tileSize.width) + (windowSize.width / 2);
-				int gy = (windowSize.height / 2) - ((y - centerY) * tileSize.height);
-				Graphics shiftedG = g.create(gx, gy, tileSize.width, tileSize.height);
+				Point graphics = cellToGraphics(x,y);
+				Graphics shiftedG = g.create(graphics.x, graphics.y, tileSize.width, tileSize.height);
 				//((Graphics2D)shiftedG).translate(gx, gy); // done by g.create(x, y, width, height)
 				tileset.drawTileImage(levelToRender.getTile(x, y), shiftedG);
 			}

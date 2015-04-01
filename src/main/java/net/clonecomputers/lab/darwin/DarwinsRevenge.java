@@ -1,6 +1,7 @@
 package net.clonecomputers.lab.darwin;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import java.lang.reflect.*;
@@ -16,7 +17,7 @@ public class DarwinsRevenge implements Runnable {
 	private LevelRenderer renderer;
 	private World world;
 	
-	private final long NANOS_PER_FRAME = 1000000000/60; // (10^9 / target fps)
+	private final long NANOS_PER_FRAME = (long) 1e9/60; // (10^9 / target fps)
 	
 	private volatile boolean running = true;
 	
@@ -54,9 +55,16 @@ public class DarwinsRevenge implements Runnable {
 		window = new JFrame("Darwin's Revenge");
 		window.setIgnoreRepaint(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//window.getContentPane().setPreferredSize(new Dimension(800, 300));
+		window.getContentPane().setPreferredSize(new Dimension(800, 300));
 		window.pack();
 		window.createBufferStrategy(2);
+		renderer.setSize(window.getContentPane().getSize());
+		window.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				renderer.setSize(window.getContentPane().getSize());
+			}
+		});
 	}
 
 	@Override
@@ -73,7 +81,7 @@ public class DarwinsRevenge implements Runnable {
 			
 			timeSinceFpsCalc += updateLength;
 			++framesSinceSecond;
-			if (timeSinceFpsCalc > 1000000000) {
+			if (timeSinceFpsCalc > 1e9) {
 				lastFps = framesSinceSecond;
 				timeSinceFpsCalc = 0;
 				framesSinceSecond = 0;
@@ -84,15 +92,10 @@ public class DarwinsRevenge implements Runnable {
 			Graphics2D g = null;
 			try {
 				g = (Graphics2D) bs.getDrawGraphics();
-				// move origin of graphics so that we don't draw behind menubar in windowed mode
+				// keep it from drawing behind the menu bar
 				g.translate(window.getRootPane().getX(), window.getRootPane().getY());
-				// give g a clip that coresponds to the entire window, so we know what to render
-				System.out.println("Window: "+window.getBounds());
-				System.out.println("ContentPane: "+window.getContentPane().getBounds());
-				System.out.println("RootPane: "+window.getRootPane().getBounds());
-				System.out.println("GlassPane: "+window.getGlassPane().getBounds());
+				// tell it what to draw
 				g.setClip(window.getContentPane().getBounds());
-				System.out.println("Graphics: "+g.getClip());
 				render(g);
 			} finally {
 				if (g != null) g.dispose();
