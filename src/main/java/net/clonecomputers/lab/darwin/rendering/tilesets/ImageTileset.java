@@ -16,20 +16,23 @@ public class ImageTileset extends AbstractTileset {
 	private int tileWidth;
 	private int tileHeight;
 	
-	private BufferedImage tileset;
+	private BufferedImage[] tilesets;
 	private float zoom = 1;
 	
-	public ImageTileset(String tilesetFile, Dimension tileSize)
+	public ImageTileset(Dimension tileSize, String... tilesetFiles)
 			throws IOException, IllegalArgumentException {
-		InputStream tilesetStream = this.getClass().getResourceAsStream(tilesetFile);
-		if (tilesetStream == null) {
-			throw new IllegalArgumentException(tilesetFile + " does not exist");
+		tilesets = new BufferedImage[tilesetFiles.length];
+		for(int i = 0; i < tilesetFiles.length; i++) {
+			InputStream tilesetStream = this.getClass().getResourceAsStream(tilesetFiles[i]);
+			if (tilesetStream == null) {
+				throw new IllegalArgumentException(tilesetFiles[i] + " does not exist");
+			}
+			BufferedImage img = ImageIO.read(tilesetStream);
+			tilesets[i] = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics g = tilesets[i].getGraphics();
+			g.drawImage(img, 0, 0, null);
+			g.dispose();
 		}
-		BufferedImage img = ImageIO.read(tilesetStream);
-		tileset = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics g = tileset.getGraphics();
-		g.drawImage(img, 0, 0, null);
-		g.dispose();
 		
 		tileWidth = tileSize.width;
 		tileHeight = tileSize.height;
@@ -55,11 +58,12 @@ public class ImageTileset extends AbstractTileset {
 	@Override
 	public void drawWorldObject(WorldObject o, Graphics g) {
 		int tileId = o.getImageId();
-		drawTile(tileId % 16, tileId / 16, createColorFilter(), g);
+		drawTile(tileId, createColorFilter(), g);
 	}
 	
-	public void drawTile(int x, int y, BufferedImageOp colorFilter, Graphics g) {
-		BufferedImage coloredTileset = colorFilter.filter(tileset, null);
+	public void drawTile(int tileId, BufferedImageOp colorFilter, Graphics g) {
+		int x = tileId % 16, y = (tileId / 16) % 16, z = tileId / 256;
+		BufferedImage coloredTileset = colorFilter.filter(tilesets[z], null);
 		g.drawImage(coloredTileset,
 				0, 0,
 				(int) (tileWidth*zoom), (int) (tileHeight*zoom),
