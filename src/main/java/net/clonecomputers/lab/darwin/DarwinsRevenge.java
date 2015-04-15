@@ -30,7 +30,7 @@ public class DarwinsRevenge implements Runnable {
 		Tileset tileset;
 		//tileset = new SimpleTileset();
 		try {
-			tileset = new ImageTileset(new Dimension(10,12), "/tileset.png");
+			tileset = new ImageTileset(new Dimension(10,12), "/tileset.png", "/tileset2.png");
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
