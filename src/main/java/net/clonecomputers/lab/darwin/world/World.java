@@ -46,4 +46,8 @@ public class World {
 	public void goDown() {
 		setLevelNumber(activeLevelNumber + 1);
 	}
+
+	public void update(long delta) {
+		// TODO Game logic
+	}
 }
