@@ -1,5 +1,10 @@
 package net.clonecomputers.lab.darwin;
 
+import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.rendering.tilesets.*;
+import net.clonecomputers.lab.darwin.world.*;
+import net.clonecomputers.lab.darwin.world.generate.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -7,11 +12,6 @@ import java.io.*;
 import java.lang.reflect.*;
 
 import javax.swing.*;
-
-import net.clonecomputers.lab.darwin.rendering.*;
-import net.clonecomputers.lab.darwin.rendering.tilesets.*;
-import net.clonecomputers.lab.darwin.world.*;
-import net.clonecomputers.lab.darwin.world.generate.*;
 
 public class DarwinsRevenge implements Runnable {
 	private LevelRenderer renderer;
@@ -85,6 +85,7 @@ public class DarwinsRevenge implements Runnable {
 				lastFps = framesSinceSecond;
 				timeSinceFpsCalc = 0;
 				framesSinceSecond = 0;
+				System.out.println(lastFps);
 			}
 			
 			update(updateLength);
