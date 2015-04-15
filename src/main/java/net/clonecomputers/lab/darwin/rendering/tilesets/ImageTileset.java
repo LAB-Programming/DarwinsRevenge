@@ -20,14 +20,14 @@ public class ImageTileset extends AbstractTileset {
 	private BufferedImage[] tiles;
 	private float zoom = 1;
 	
-	private HashMap<TileImageId, BufferedImage> tileCache = new HashMap<TileImageId, BufferedImage>();
+	private HashMap<TileImageProperties, BufferedImage> tileCache = new HashMap<TileImageProperties, BufferedImage>();
 	
-	private class TileImageId {
+	private class TileImageProperties {
 		public final int tileId;
 		public final int fgColor;
 		public final int bgColor;
 		
-		public TileImageId(int tileId, int fgColor, int bgColor) {
+		public TileImageProperties(int tileId, int fgColor, int bgColor) {
 			this.tileId = tileId;
 			this.fgColor = fgColor;
 			this.bgColor = bgColor;
@@ -35,8 +35,8 @@ public class ImageTileset extends AbstractTileset {
 		
 		@Override
 		public boolean equals(Object o) {
-			if(!(o instanceof TileImageId)) return false;
-			TileImageId tid = (TileImageId)o;
+			if(!(o instanceof TileImageProperties)) return false;
+			TileImageProperties tid = (TileImageProperties)o;
 			return tid.tileId == tileId && tid.fgColor == fgColor && tid.bgColor == bgColor;
 		}
 		
@@ -97,7 +97,7 @@ public class ImageTileset extends AbstractTileset {
 	}
 	
 	private int createFgColor() {
-		byte gray = (byte) ((int) (Math.random()*2)*64 + 127); //either 127 or 191
+		int gray = ((int) (Math.random()*2)*64 + 127); //either 127 or 191
 		return gray | (gray<<8) | (gray<<16);
 	}
 
@@ -105,10 +105,10 @@ public class ImageTileset extends AbstractTileset {
 	public void drawWorldObject(WorldObject o, Graphics g) {
 		int tileId = o.getImageId();
 		int fgColor = createFgColor(), bgColor = 0; // TODO: actually get the fg and bg colors for the image
-		BufferedImage tileImage = tileCache.get(new TileImageId(tileId, fgColor, bgColor));
+		BufferedImage tileImage = tileCache.get(new TileImageProperties(tileId, fgColor, bgColor));
 		if(tileImage == null) {
 			tileImage = filterTile(tileId, createColorFilter(fgColor, bgColor));
-			tileCache.put(new TileImageId(tileId, fgColor, bgColor), tileImage);
+			tileCache.put(new TileImageProperties(tileId, fgColor, bgColor), tileImage);
 		}
 		drawTile(tileImage, g);
 	}
