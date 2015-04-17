@@ -95,16 +95,12 @@ public class ImageTileset extends AbstractTileset {
 		b[0] = (byte)((bgColor & 0x000000ff));
 		return new LookupOp(new ByteLookupTable(0, new byte[][]{r, g, b}), null);
 	}
-	
-	private int createFgColor() {
-		int gray = ((int) (Math.random()*2)*64 + 127); //either 127 or 191
-		return gray | (gray<<8) | (gray<<16);
-	}
 
 	@Override
 	public void drawWorldObject(WorldObject o, Graphics g) {
 		int tileId = o.getImageId();
-		int fgColor = createFgColor(), bgColor = 0; // TODO: actually get the fg and bg colors for the image
+		int fgColor = o.getFgColor();
+		int bgColor = o.getBgColor();
 		BufferedImage tileImage = tileCache.get(new TileImageProperties(tileId, fgColor, bgColor));
 		if(tileImage == null) {
 			tileImage = filterTile(tileId, createColorFilter(fgColor, bgColor));

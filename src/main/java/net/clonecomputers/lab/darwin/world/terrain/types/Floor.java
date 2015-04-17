@@ -11,4 +11,14 @@ public class Floor extends Terrain {
 	public int getImageId() {
 		return 0x00;
 	}
+
+	@Override
+	public int getFgColor() {
+		return 0;
+	}
+
+	@Override
+	public int getBgColor() {
+		return 0;
+	}
 }

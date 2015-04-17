@@ -20,4 +20,14 @@ public class Wall extends Terrain {
 	private boolean isWall(int dx, int dy) {
 		return tile.level.getTile(tile.x + dx, tile.y + dy).getTerrain() instanceof Wall;
 	}
+
+	@Override
+	public int getFgColor() {
+		return createFgColor();
+	}
+
+	@Override
+	public int getBgColor() {
+		return 0;
+	}
 }

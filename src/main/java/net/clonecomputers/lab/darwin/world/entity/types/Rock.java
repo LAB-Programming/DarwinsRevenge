@@ -11,4 +11,14 @@ public class Rock extends Entity {
 	public int getImageId() {
 		return 0x0f;
 	}
+
+	@Override
+	public int getFgColor() {
+		return createFgColor();
+	}
+
+	@Override
+	public int getBgColor() {
+		return 0;
+	}
 }
