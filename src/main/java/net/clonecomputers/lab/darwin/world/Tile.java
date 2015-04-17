@@ -39,6 +39,13 @@ public class Tile {
 		return Collections.unmodifiableList(entities);
 	}
 	
+	public WorldObject getTopmostObject() {
+		if (entities.isEmpty()) {
+			return terrain;
+		}
+		return entities.get(entities.size() - 1);
+	}
+	
 	public String toString() {
 		return "{"+terrain.getClass().getSimpleName()+": "+entities+"}";
 	}
