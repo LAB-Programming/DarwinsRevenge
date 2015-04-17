@@ -12,12 +12,12 @@ public class Tile {
 	public final int x, y;
 	
 	public Tile(Level level, int x, int y, Terrain terrain, Entity... entities) {
-		this(level, x, y, terrain, new ArrayList<Entity>(Arrays.asList(entities)));
+		this(level, x, y, terrain, Arrays.asList(entities));
 	}
 	
 	public Tile(Level level, int x, int y, Terrain terrain, List<Entity> entities) {
 		this.terrain = terrain;
-		this.entities = entities;
+		this.entities = new ArrayList<Entity>(entities);
 		this.level = level;
 		this.x = x;
 		this.y = y;
