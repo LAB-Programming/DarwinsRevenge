@@ -1,5 +1,7 @@
 package net.clonecomputers.lab.darwin;
 
+import net.clonecomputers.lab.darwin.keyboard.KeyAction;
+import net.clonecomputers.lab.darwin.keyboard.KeyHandler;
 import net.clonecomputers.lab.darwin.rendering.*;
 import net.clonecomputers.lab.darwin.rendering.tilesets.*;
 import net.clonecomputers.lab.darwin.world.*;
@@ -16,6 +18,7 @@ import javax.swing.*;
 public class DarwinsRevenge implements Runnable {
 	private LevelRenderer renderer;
 	private World world;
+	private KeyHandler keyHandler;
 	
 	private final long NANOS_PER_FRAME = (long) 1e9/60; // (10^9 / target fps)
 	
@@ -35,7 +38,7 @@ public class DarwinsRevenge implements Runnable {
 			throw new RuntimeException(e1);
 		}
 		renderer = new LevelRenderer(world.getLevel(), tileset);
-		
+		keyHandler = new KeyHandler();
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				
@@ -65,6 +68,7 @@ public class DarwinsRevenge implements Runnable {
 				renderer.setSize(window.getContentPane().getSize());
 			}
 		});
+		window.addKeyListener(keyHandler);
 	}
 
 	@Override
@@ -89,7 +93,7 @@ public class DarwinsRevenge implements Runnable {
 			}
 			
 			update(updateLength);
-			
+			doKeyActions();
 			Graphics2D g = null;
 			try {
 				g = (Graphics2D) bs.getDrawGraphics();
@@ -116,6 +120,27 @@ public class DarwinsRevenge implements Runnable {
 	private void update(long delta) {
 		// TODO update stuff here!
 		world.update(delta);
+	}
+	
+	private void doKeyActions() {
+		for (KeyAction a : keyHandler) {
+			switch (a) {
+				case PLAYER_MOVE_WEST:
+					System.out.println("Moved player west");
+					break;
+				case PLAYER_MOVE_EAST:
+					System.out.println("Moved player east");
+					break;
+				case PLAYER_MOVE_NORTH:
+					System.out.println("Moved player north");
+					break;
+				case PLAYER_MOVE_SOUTH:
+					System.out.println("Moved player south");
+					break;
+				default:
+					System.err.println("Unrecognized action: " + a);
+			}
+		}
 	}
 	
 	private void render(Graphics2D g) {
