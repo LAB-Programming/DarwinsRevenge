@@ -70,11 +70,11 @@ public class LevelRenderer {
 		paint(g.create(x, y, width, height));
 	}
 	
-	public Point cellToGraphics(int x, int y) {
+	private Point cellToGraphics(int x, int y) {
 		return cellToGraphics(new Point(x, y));
 	}
 	
-	public Point cellToGraphics(Point cell) {
+	private Point cellToGraphics(Point cell) {
 		return new Point((windowSize.width  / 2) - (tileSize.width  / 2) + ((cell.x - centerX) * tileSize.width ), 
 						 (windowSize.height / 2) - (tileSize.height / 2) + ((centerY - cell.y) * tileSize.height));
 	}
