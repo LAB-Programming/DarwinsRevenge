@@ -49,4 +49,12 @@ public class Tile {
 	public String toString() {
 		return "{"+terrain.getClass().getSimpleName()+": "+entities+"}";
 	}
+	
+	public boolean removeEntity(Entity e) {
+		return entities.remove(e);
+	}
+	
+	public boolean addEntity(Entity e) {
+		return entities.add(e);
+	}
 }

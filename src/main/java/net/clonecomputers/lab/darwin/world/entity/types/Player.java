@@ -1,24 +1,27 @@
 package net.clonecomputers.lab.darwin.world.entity.types;
 
-import net.clonecomputers.lab.darwin.world.entity.*;
+import net.clonecomputers.lab.darwin.world.entity.Entity;
 
-public class Rock extends Entity {
+
+public class Player extends Entity {
+	
 	static {
-		registerType(1, Rock.class);
+		registerType(0, Player.class);
 	}
 	
 	@Override
 	public int getImageId() {
-		return 0x0f;
+		return 0x40;
 	}
-
+	
 	@Override
 	public int getFgColor() {
-		return createFgColor();
+		return 0xDDDDDD;
 	}
-
+	
 	@Override
 	public int getBgColor() {
 		return 0;
 	}
+	
 }

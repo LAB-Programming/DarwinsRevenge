@@ -5,6 +5,7 @@ import net.clonecomputers.lab.darwin.keyboard.KeyHandler;
 import net.clonecomputers.lab.darwin.rendering.*;
 import net.clonecomputers.lab.darwin.rendering.tilesets.*;
 import net.clonecomputers.lab.darwin.world.*;
+import net.clonecomputers.lab.darwin.world.entity.types.Player;
 import net.clonecomputers.lab.darwin.world.generate.*;
 
 import java.awt.*;
@@ -19,6 +20,7 @@ public class DarwinsRevenge implements Runnable {
 	private LevelRenderer renderer;
 	private World world;
 	private KeyHandler keyHandler;
+	private Player player;
 	
 	private final long NANOS_PER_FRAME = (long) 1e9/60; // (10^9 / target fps)
 	
@@ -39,6 +41,10 @@ public class DarwinsRevenge implements Runnable {
 		}
 		renderer = new LevelRenderer(world.getLevel(), tileset);
 		keyHandler = new KeyHandler();
+		player = new Player();
+		Tile startTile = world.getLevel().getTile(0, 0);
+		player.setTile(startTile);
+		startTile.addEntity(player);
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				
@@ -126,16 +132,16 @@ public class DarwinsRevenge implements Runnable {
 		for (KeyAction a : keyHandler) {
 			switch (a) {
 				case PLAYER_MOVE_WEST:
-					System.out.println("Moved player west");
+					world.getLevel().moveEntity(player, player.getX(), player.getY(), -1, 0);
 					break;
 				case PLAYER_MOVE_EAST:
-					System.out.println("Moved player east");
+					world.getLevel().moveEntity(player, player.getX(), player.getY(), 1, 0);
 					break;
 				case PLAYER_MOVE_NORTH:
-					System.out.println("Moved player north");
+					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, 1);
 					break;
 				case PLAYER_MOVE_SOUTH:
-					System.out.println("Moved player south");
+					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, -1);
 					break;
 				default:
 					System.err.println("Unrecognized action: " + a);
