@@ -133,15 +133,19 @@ public class DarwinsRevenge implements Runnable {
 			switch (a) {
 				case PLAYER_MOVE_WEST:
 					world.getLevel().moveEntity(player, player.getX(), player.getY(), -1, 0);
+					renderer.moveLeft();
 					break;
 				case PLAYER_MOVE_EAST:
 					world.getLevel().moveEntity(player, player.getX(), player.getY(), 1, 0);
+					renderer.moveRight();
 					break;
 				case PLAYER_MOVE_NORTH:
 					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, 1);
+					renderer.moveUp();
 					break;
 				case PLAYER_MOVE_SOUTH:
 					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, -1);
+					renderer.moveDown();
 					break;
 				default:
 					System.err.println("Unrecognized action: " + a);
