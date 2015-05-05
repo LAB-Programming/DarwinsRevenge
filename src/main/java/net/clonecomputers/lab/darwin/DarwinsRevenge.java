@@ -132,20 +132,28 @@ public class DarwinsRevenge implements Runnable {
 		for (KeyAction a : keyHandler) {
 			switch (a) {
 				case PLAYER_MOVE_WEST:
-					world.getLevel().moveEntity(player, player.getX(), player.getY(), -1, 0);
-					renderer.moveLeft();
+					if (world.getLevel().getTile(player.getX() - 1, player.getY()).isPassable()) {
+						world.getLevel().moveEntity(player, player.getX(), player.getY(), -1, 0);
+						renderer.moveLeft();
+					}
 					break;
 				case PLAYER_MOVE_EAST:
-					world.getLevel().moveEntity(player, player.getX(), player.getY(), 1, 0);
-					renderer.moveRight();
+					if (world.getLevel().getTile(player.getX() + 1, player.getY()).isPassable()) {
+						world.getLevel().moveEntity(player, player.getX(), player.getY(), 1, 0);
+						renderer.moveRight();
+					}
 					break;
 				case PLAYER_MOVE_NORTH:
-					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, 1);
-					renderer.moveUp();
+					if (world.getLevel().getTile(player.getX(), player.getY() + 1).isPassable()) {
+						world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, 1);
+						renderer.moveUp();
+					}
 					break;
 				case PLAYER_MOVE_SOUTH:
-					world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, -1);
-					renderer.moveDown();
+					if (world.getLevel().getTile(player.getX(), player.getY() - 1).isPassable()) {
+						world.getLevel().moveEntity(player, player.getX(), player.getY(), 0, -1);
+						renderer.moveDown();
+					}
 					break;
 				default:
 					System.err.println("Unrecognized action: " + a);

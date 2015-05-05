@@ -55,6 +55,11 @@ public class Tile {
 	}
 	
 	public boolean addEntity(Entity e) {
-		return entities.add(e);
+		if (isPassable()) return entities.add(e);
+		return false;
+	}
+	
+	public boolean isPassable() {
+		return terrain.isPassable();
 	}
 }

@@ -30,4 +30,9 @@ public class Wall extends Terrain {
 	public int getBgColor() {
 		return 0;
 	}
+
+	@Override
+	public boolean isPassable() {
+		return false;
+	}
 }

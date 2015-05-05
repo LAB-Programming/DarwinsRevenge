@@ -21,4 +21,9 @@ public class Floor extends Terrain {
 	public int getBgColor() {
 		return 0;
 	}
+
+	@Override
+	public boolean isPassable() {
+		return true;
+	}
 }
