@@ -1,16 +1,29 @@
 package net.clonecomputers.lab.darwin.keyboard;
 
 import java.awt.event.KeyEvent;
+
 import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static java.awt.event.KeyEvent.*;
-
 public class KeyHandler implements KeyListener, Iterable<KeyAction> {
 	
 	private Queue<KeyAction> actions = new ConcurrentLinkedQueue<KeyAction>();
+	
+	private KeyMap keyMap;
+	
+	public KeyHandler(KeyMap keyMap) {
+		this.keyMap = keyMap;
+	}
+	
+	public void setKeyMap(KeyMap keyMap) {
+		this.keyMap = keyMap;
+	}
+	
+	public KeyMap getKeyMap() {
+		return keyMap;
+	}
 	
 	public KeyAction pollNextAction() {
 		return actions.poll();
@@ -18,20 +31,7 @@ public class KeyHandler implements KeyListener, Iterable<KeyAction> {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()) {
-			case VK_LEFT:
-				actions.offer(KeyAction.PLAYER_MOVE_WEST);
-				break;
-			case VK_RIGHT:
-				actions.offer(KeyAction.PLAYER_MOVE_EAST);
-				break;
-			case VK_UP:
-				actions.offer(KeyAction.PLAYER_MOVE_NORTH);
-				break;
-			case VK_DOWN:
-				actions.offer(KeyAction.PLAYER_MOVE_SOUTH);
-				break;
-		}
+		actions.offer(keyMap.getAction(e.getKeyCode()));
 	}
 
 	@Override

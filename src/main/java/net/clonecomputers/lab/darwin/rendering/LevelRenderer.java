@@ -22,22 +22,6 @@ public class LevelRenderer {
 		this.centerY = y;
 	}
 	
-	public void moveUp() {
-		moveTo(centerX, centerY + 1);
-	}
-	
-	public void moveDown() {
-		moveTo(centerX, centerY - 1);
-	}
-	
-	public void moveLeft() {
-		moveTo(centerX - 1, centerY);
-	}
-	
-	public void moveRight() {
-		moveTo(centerX + 1, centerY);
-	}
-	
 	public void move(int dx, int dy) {
 		moveTo(centerX + dx, centerY + dy);
 	}
