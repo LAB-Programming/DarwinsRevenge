@@ -14,7 +14,7 @@ public class Rock extends Entity {
 
 	@Override
 	public int getFgColor() {
-		return createFgColor();
+		return 0x00222222;
 	}
 
 	@Override

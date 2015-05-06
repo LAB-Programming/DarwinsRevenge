@@ -16,7 +16,7 @@ public class Player extends Entity {
 	
 	@Override
 	public int getFgColor() {
-		return 0xDDDDDD;
+		return 0x00ffbbff;
 	}
 	
 	@Override

@@ -20,12 +20,6 @@ public abstract class WorldObject {
 		this.tile = tile;
 	}
 	
-	// Demo function, will be removed eventually
-	protected int createFgColor() {
-		int gray = ((int) (Math.random()*2)*64 + 127); //either 127 or 191
-		return gray | (gray<<8) | (gray<<16);
-	}
-	
 	public int getX() {
 		return tile.x;
 	}
