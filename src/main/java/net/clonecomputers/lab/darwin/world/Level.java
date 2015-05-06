@@ -24,16 +24,16 @@ public class Level {
 		return t;
 	}
 	
-	public void moveEntity(Entity e, int x, int y, int dx, int dy) throws IllegalArgumentException, RuntimeException {
-		Tile originTile = getTile(x, y);
-		Tile destTile = getTile(x + dx, y + dy);
-		if (!originTile.removeEntity(e)) {
-			throw new IllegalArgumentException("Cannot find Entity " + e + " in tile (" + x + "," + y + ") on level " + levelNum);
-		}
-		if (!destTile.addEntity(e)) {
-			// Couldn't think of what exception this should be
-			throw new RuntimeException("Cannot add Entity " + e + " to tile (" + x + "," + y + ") on level " + levelNum);
-		}
-		e.setTile(destTile);
+	public boolean moveEntityTo(Entity e, int x, int y, boolean checkIfPassable) {
+		Tile dest = getTile(x, y);
+		if(checkIfPassable && !dest.isPassable()) return false;
+		getTile(e.getX(), e.getY()).removeEntity(e);
+		dest.addEntity(e);
+		e.setTile(dest);
+		return true;
+	}
+	
+	public boolean moveEntity(Entity e, int dx, int dy, boolean checkIfPassable) {
+		return moveEntityTo(e, e.getX() + dx, e.getY() + dy, checkIfPassable);
 	}
 }
