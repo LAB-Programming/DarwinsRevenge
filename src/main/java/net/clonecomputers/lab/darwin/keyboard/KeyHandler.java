@@ -1,11 +1,8 @@
 package net.clonecomputers.lab.darwin.keyboard;
 
-import java.awt.event.KeyEvent;
-
-import java.awt.event.KeyListener;
-import java.util.Iterator;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.awt.event.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class KeyHandler implements KeyListener, Iterable<KeyAction> {
 	
@@ -31,7 +28,10 @@ public class KeyHandler implements KeyListener, Iterable<KeyAction> {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		actions.offer(keyMap.getAction(e.getKeyCode()));
+		KeyAction action = keyMap.getAction(e.getKeyCode());
+		if(action != null) {
+			actions.offer(action);
+		}
 	}
 
 	@Override
