@@ -9,7 +9,7 @@ public class Wall extends Terrain {
 	
 	@Override
 	public int getImageId() {
-		int id = 0x110;
+		int id = 0x100;
 		if(isWall(1,0)) id |= 0x04;
 		if(isWall(-1,0)) id |= 0x01;
 		if(isWall(0,1)) id |= 0x02;
@@ -23,11 +23,16 @@ public class Wall extends Terrain {
 
 	@Override
 	public int getFgColor() {
-		return createFgColor();
+		return 0x00aaaaaa;
 	}
 
 	@Override
 	public int getBgColor() {
 		return 0;
+	}
+
+	@Override
+	public boolean isPassable() {
+		return false;
 	}
 }

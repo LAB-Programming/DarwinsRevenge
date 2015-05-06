@@ -1,9 +1,6 @@
 package net.clonecomputers.lab.darwin;
 
-import net.clonecomputers.lab.darwin.rendering.*;
-import net.clonecomputers.lab.darwin.rendering.tilesets.*;
-import net.clonecomputers.lab.darwin.world.*;
-import net.clonecomputers.lab.darwin.world.generate.*;
+import static java.awt.event.KeyEvent.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,9 +10,20 @@ import java.lang.reflect.*;
 
 import javax.swing.*;
 
+import net.clonecomputers.lab.darwin.keyboard.*;
+import net.clonecomputers.lab.darwin.keyboard.actions.*;
+import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.rendering.tilesets.*;
+import net.clonecomputers.lab.darwin.world.*;
+import net.clonecomputers.lab.darwin.world.entity.types.*;
+import net.clonecomputers.lab.darwin.world.generate.*;
+
 public class DarwinsRevenge implements Runnable {
-	private LevelRenderer renderer;
-	private World world;
+	public LevelRenderer renderer;
+	public World world;
+	private KeyHandler keyHandler;
+	private KeyMap keyMap;
+	public Player player;
 	
 	private final long NANOS_PER_FRAME = (long) 1e9/60; // (10^9 / target fps)
 	
@@ -34,8 +42,14 @@ public class DarwinsRevenge implements Runnable {
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
+		keyMap = new SimpleKeyMap();
+		addDefaultKeyBindings(keyMap);
 		renderer = new LevelRenderer(world.getLevel(), tileset);
-		
+		keyHandler = new KeyHandler(keyMap);
+		player = new Player();
+		Tile startTile = world.getLevel().getTile(0, 0);
+		player.setTile(startTile);
+		startTile.addEntity(player);
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				
@@ -51,6 +65,32 @@ public class DarwinsRevenge implements Runnable {
 		}
 	}
 	
+	private static void addDefaultKeyBindings(KeyMap keyMap) {
+		keyMap.bindAction(VK_NUMPAD1, new MoveAction(-1,-1));
+		keyMap.bindAction(VK_NUMPAD2, new MoveAction( 0,-1));
+		keyMap.bindAction(VK_NUMPAD3, new MoveAction( 1,-1));
+		keyMap.bindAction(VK_NUMPAD4, new MoveAction(-1, 0));
+		keyMap.bindAction(VK_NUMPAD5, new MoveAction( 0, 0));
+		keyMap.bindAction(VK_NUMPAD6, new MoveAction( 1, 0));
+		keyMap.bindAction(VK_NUMPAD7, new MoveAction(-1, 1));
+		keyMap.bindAction(VK_NUMPAD8, new MoveAction( 0, 1));
+		keyMap.bindAction(VK_NUMPAD9, new MoveAction( 1, 1));
+		
+		keyMap.bindAction(VK_W, new MoveAction( 0, 1));
+		keyMap.bindAction(VK_A, new MoveAction(-1, 0));
+		keyMap.bindAction(VK_S, new MoveAction( 0,-1));
+		keyMap.bindAction(VK_D, new MoveAction( 1, 0));
+		keyMap.bindAction(VK_Q, new MoveAction(-1, 1));
+		keyMap.bindAction(VK_E, new MoveAction( 1, 1));
+		keyMap.bindAction(VK_Z, new MoveAction(-1,-1));
+		keyMap.bindAction(VK_X, new MoveAction( 1,-1));
+		
+		keyMap.bindAction(VK_UP, new MoveAction( 0, 1));
+		keyMap.bindAction(VK_DOWN, new MoveAction( 0,-1));
+		keyMap.bindAction(VK_LEFT, new MoveAction(-1, 0));
+		keyMap.bindAction(VK_RIGHT, new MoveAction( 1, 0));
+	}
+
 	private void initGui() {
 		window = new JFrame("Darwin's Revenge");
 		window.setIgnoreRepaint(true);
@@ -65,6 +105,7 @@ public class DarwinsRevenge implements Runnable {
 				renderer.setSize(window.getContentPane().getSize());
 			}
 		});
+		window.addKeyListener(keyHandler);
 	}
 
 	@Override
@@ -89,7 +130,7 @@ public class DarwinsRevenge implements Runnable {
 			}
 			
 			update(updateLength);
-			
+			doKeyActions();
 			Graphics2D g = null;
 			try {
 				g = (Graphics2D) bs.getDrawGraphics();
@@ -116,6 +157,12 @@ public class DarwinsRevenge implements Runnable {
 	private void update(long delta) {
 		// TODO update stuff here!
 		world.update(delta);
+	}
+	
+	private void doKeyActions() {
+		for (KeyAction a : keyHandler) {
+			a.doAction(this);
+		}
 	}
 	
 	private void render(Graphics2D g) {

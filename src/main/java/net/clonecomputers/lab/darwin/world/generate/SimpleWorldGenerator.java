@@ -27,12 +27,12 @@ public class SimpleWorldGenerator implements WorldGenerator {
 		@Override
 		public Tile generateTile(Level l, int x, int y) {
 			Terrain t;
-			if(r.nextInt(levelNumber + 14) < 10) {
+			if((x == 0 && y == 0) || Math.exp(-Math.pow(Math.hypot(x,y), 2) * (levelNumber + 1) / 10000) > r.nextFloat()) {
 				t = new Floor();
 			} else {
 				t = new Wall();
 			}
-			if(t instanceof Floor && r.nextFloat() > .9) {
+			if(t instanceof Floor && r.nextFloat() > .8) {
 				return new Tile(l, x, y, t, new Rock());
 			}
 			return new Tile(l, x, y, t);

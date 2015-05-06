@@ -49,4 +49,17 @@ public class Tile {
 	public String toString() {
 		return "{"+terrain.getClass().getSimpleName()+": "+entities+"}";
 	}
+	
+	public boolean removeEntity(Entity e) {
+		return entities.remove(e);
+	}
+	
+	public boolean addEntity(Entity e) {
+		if (isPassable()) return entities.add(e);
+		return false;
+	}
+	
+	public boolean isPassable() {
+		return terrain.isPassable();
+	}
 }
