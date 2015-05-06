@@ -1,12 +1,6 @@
 package net.clonecomputers.lab.darwin;
 
-import net.clonecomputers.lab.darwin.keyboard.*;
-import net.clonecomputers.lab.darwin.keyboard.actions.*;
-import net.clonecomputers.lab.darwin.rendering.*;
-import net.clonecomputers.lab.darwin.rendering.tilesets.*;
-import net.clonecomputers.lab.darwin.world.*;
-import net.clonecomputers.lab.darwin.world.entity.types.Player;
-import net.clonecomputers.lab.darwin.world.generate.*;
+import static java.awt.event.KeyEvent.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,9 +8,15 @@ import java.awt.image.*;
 import java.io.*;
 import java.lang.reflect.*;
 
-import static java.awt.event.KeyEvent.*;
-
 import javax.swing.*;
+
+import net.clonecomputers.lab.darwin.keyboard.*;
+import net.clonecomputers.lab.darwin.keyboard.actions.*;
+import net.clonecomputers.lab.darwin.rendering.*;
+import net.clonecomputers.lab.darwin.rendering.tilesets.*;
+import net.clonecomputers.lab.darwin.world.*;
+import net.clonecomputers.lab.darwin.world.entity.types.*;
+import net.clonecomputers.lab.darwin.world.generate.*;
 
 public class DarwinsRevenge implements Runnable {
 	public LevelRenderer renderer;
@@ -65,7 +65,7 @@ public class DarwinsRevenge implements Runnable {
 		}
 	}
 	
-	private void addDefaultKeyBindings(KeyMap keyMap) {
+	private static void addDefaultKeyBindings(KeyMap keyMap) {
 		keyMap.bindAction(VK_NUMPAD1, new MoveAction(-1,-1));
 		keyMap.bindAction(VK_NUMPAD2, new MoveAction( 0,-1));
 		keyMap.bindAction(VK_NUMPAD3, new MoveAction( 1,-1));
@@ -80,10 +80,10 @@ public class DarwinsRevenge implements Runnable {
 		keyMap.bindAction(VK_A, new MoveAction(-1, 0));
 		keyMap.bindAction(VK_S, new MoveAction( 0,-1));
 		keyMap.bindAction(VK_D, new MoveAction( 1, 0));
-		keyMap.bindAction(VK_Q, new MoveAction( 1, 1));
-		keyMap.bindAction(VK_E, new MoveAction(-1, 1));
-		keyMap.bindAction(VK_X, new MoveAction(-1,-1));
-		keyMap.bindAction(VK_C, new MoveAction( 1,-1));
+		keyMap.bindAction(VK_Q, new MoveAction(-1, 1));
+		keyMap.bindAction(VK_E, new MoveAction( 1, 1));
+		keyMap.bindAction(VK_Z, new MoveAction(-1,-1));
+		keyMap.bindAction(VK_X, new MoveAction( 1,-1));
 		
 		keyMap.bindAction(VK_UP, new MoveAction( 0, 1));
 		keyMap.bindAction(VK_DOWN, new MoveAction( 0,-1));
