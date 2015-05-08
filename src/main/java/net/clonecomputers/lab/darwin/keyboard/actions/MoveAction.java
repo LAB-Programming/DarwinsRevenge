@@ -14,7 +14,7 @@ public class MoveAction implements KeyAction {
 	@Override
 	public void doAction(DarwinsRevenge r) {
 		r.world.getLevel().moveEntity(r.player, dx, dy, true);
-		r.renderer.moveTo(r.player.getX(), r.player.getY());
+		r.levelRenderer.moveTo(r.player.getX(), r.player.getY());
 	}
 
 }

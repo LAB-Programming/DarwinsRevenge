@@ -19,7 +19,11 @@ import net.clonecomputers.lab.darwin.world.entity.types.*;
 import net.clonecomputers.lab.darwin.world.generate.*;
 
 public class DarwinsRevenge implements Runnable {
-	public LevelRenderer renderer;
+	
+	private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(800, 300); // yes, yes I know that Dimension is mutable
+	
+	public LevelRenderer levelRenderer;
+	public GuiRenderer guiRenderer;
 	public World world;
 	private KeyHandler keyHandler;
 	private KeyMap keyMap;
@@ -44,7 +48,8 @@ public class DarwinsRevenge implements Runnable {
 		}
 		keyMap = new SimpleKeyMap();
 		addDefaultKeyBindings(keyMap);
-		renderer = new LevelRenderer(world.getLevel(), tileset);
+		levelRenderer = new LevelRenderer(world.getLevel(), tileset);
+		guiRenderer = new GuiRenderer(DEFAULT_WINDOW_SIZE, tileset);
 		keyHandler = new KeyHandler(keyMap);
 		player = new Player();
 		Tile startTile = world.getLevel().getTile(0, 0);
@@ -95,14 +100,15 @@ public class DarwinsRevenge implements Runnable {
 		window = new JFrame("Darwin's Revenge");
 		window.setIgnoreRepaint(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().setPreferredSize(new Dimension(800, 300));
+		window.getContentPane().setPreferredSize(DEFAULT_WINDOW_SIZE);
 		window.pack();
 		window.createBufferStrategy(2);
-		renderer.setSize(window.getContentPane().getSize());
+		levelRenderer.setSize(window.getContentPane().getSize());
 		window.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				renderer.setSize(window.getContentPane().getSize());
+				levelRenderer.setSize(window.getContentPane().getSize());
+				guiRenderer.setWindowSize(window.getContentPane().getSize());
 			}
 		});
 		window.addKeyListener(keyHandler);
@@ -166,7 +172,8 @@ public class DarwinsRevenge implements Runnable {
 	}
 	
 	private void render(Graphics2D g) {
-		renderer.paint(g);
+		g = guiRenderer.paintAndResize(g);
+		levelRenderer.paint(g);
 		/*
 		g.setBackground(Color.WHITE);
 		g.setColor(Color.BLUE);

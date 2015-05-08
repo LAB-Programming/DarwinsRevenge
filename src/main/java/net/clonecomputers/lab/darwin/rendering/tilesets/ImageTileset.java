@@ -101,10 +101,15 @@ public class ImageTileset extends AbstractTileset {
 		int tileId = o.getImageId();
 		int fgColor = o.getFgColor();
 		int bgColor = o.getBgColor();
-		BufferedImage tileImage = tileCache.get(new TileImageProperties(tileId, fgColor, bgColor));
+		drawCharacter(tileId, fgColor, bgColor, g);
+	}
+	
+	@Override
+	public void drawCharacter(int ch, int fgColor, int bgColor, Graphics g) {
+		BufferedImage tileImage = tileCache.get(new TileImageProperties(ch, fgColor, bgColor));
 		if(tileImage == null) {
-			tileImage = filterTile(tileId, createColorFilter(fgColor, bgColor));
-			tileCache.put(new TileImageProperties(tileId, fgColor, bgColor), tileImage);
+			tileImage = filterTile(ch, createColorFilter(fgColor, bgColor));
+			tileCache.put(new TileImageProperties(ch, fgColor, bgColor), tileImage);
 		}
 		drawTile(tileImage, g);
 	}

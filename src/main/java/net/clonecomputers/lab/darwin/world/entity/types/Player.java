@@ -5,8 +5,14 @@ import net.clonecomputers.lab.darwin.world.entity.Entity;
 
 public class Player extends Entity {
 	
+	private int hitPoints = 10;
+	
 	static {
 		registerType(0, Player.class);
+	}
+	
+	public int getHP() {
+		return hitPoints;
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ import net.clonecomputers.lab.darwin.world.terrain.types.*;
 
 import java.awt.*;
 
+@Deprecated
 public class SimpleTileset extends AbstractTileset {
 
 	@Override
@@ -33,6 +34,11 @@ public class SimpleTileset extends AbstractTileset {
 				g.drawOval(0, 0, 16, 16);
 			}
 		}
+	}
+
+	@Override
+	public void drawCharacter(int ch, int fgColor, int bgColor, Graphics g) {
+		throw new UnsupportedOperationException("SimpleTileset is outdated and should not be used");
 	}
 
 }
