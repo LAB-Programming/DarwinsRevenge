@@ -5,6 +5,8 @@ import net.clonecomputers.lab.darwin.world.entity.Entity;
 
 public class Player extends Entity {
 	
+	private 
+	
 	static {
 		registerType(0, Player.class);
 	}
