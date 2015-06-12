@@ -54,13 +54,14 @@ public class LevelRenderer {
 		paint(g.create(x, y, width, height));
 	}
 	
-	private Point cellToGraphics(int x, int y) {
-		return cellToGraphics(new Point(x, y));
+	@SuppressWarnings("unused")
+	private Point cellToGraphics(Point cell) {
+		return cellToGraphics(cell.x, cell.y);
 	}
 	
-	private Point cellToGraphics(Point cell) {
-		return new Point((windowSize.width  / 2) - (tileSize.width  / 2) + ((cell.x - centerX) * tileSize.width ), 
-						 (windowSize.height / 2) - (tileSize.height / 2) + ((centerY - cell.y) * tileSize.height));
+	private Point cellToGraphics(int x, int y) {
+		return new Point((windowSize.width  / 2) - (tileSize.width  / 2) + ((x - centerX) * tileSize.width ), 
+						 (windowSize.height / 2) - (tileSize.height / 2) + ((centerY - y) * tileSize.height));
 	}
 	
 	public void paint(Graphics g) {
@@ -77,8 +78,8 @@ public class LevelRenderer {
 		int maxX = (int)Math.ceil((areaToDraw.x - windowSize.width/2 + areaToDraw.width) / (double)tileSize.width) + centerX;
 		int minY = (int)Math.floor((areaToDraw.y - windowSize.height/2) / (double)tileSize.height) + centerY;
 		int maxY = (int)Math.ceil((areaToDraw.y - windowSize.height/2 + areaToDraw.height) / (double)tileSize.height) + centerY;
-		for(int x = minX; x <= maxX; x++) {
-			for(int y = minY; y <= maxY; y++) {
+		for(int x = minX; x < maxX; x++) {
+			for(int y = minY; y < maxY; y++) {
 				Point graphics = cellToGraphics(x,y);
 				Graphics shiftedG = g.create(graphics.x, graphics.y, tileSize.width, tileSize.height);
 				//((Graphics2D)shiftedG).translate(gx, gy); // done by g.create(x, y, width, height)
