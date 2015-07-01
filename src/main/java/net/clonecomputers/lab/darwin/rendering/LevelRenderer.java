@@ -60,8 +60,8 @@ public class LevelRenderer {
 	}
 	
 	private Point cellToGraphics(int x, int y) {
-		return new Point((windowSize.width  / 2) - (tileSize.width  / 2) + ((x - centerX) * tileSize.width ), 
-						 (windowSize.height / 2) - (tileSize.height / 2) + ((centerY - y) * tileSize.height));
+		return new Point((windowSize.width  / 2) - (tileSize.width  / 2)*(windowSize.width/tileSize.width % 2) + ((x - centerX) * tileSize.width ), 
+						 (windowSize.height / 2) - (tileSize.height / 2)*(2 - (windowSize.height/tileSize.height % 2)) + ((centerY - y) * tileSize.height));
 	}
 	
 	public void paint(Graphics g) {
