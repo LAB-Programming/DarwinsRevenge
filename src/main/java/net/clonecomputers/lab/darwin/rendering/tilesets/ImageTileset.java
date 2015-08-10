@@ -1,7 +1,6 @@
 package net.clonecomputers.lab.darwin.rendering.tilesets;
 
 import net.clonecomputers.lab.darwin.rendering.*;
-import net.clonecomputers.lab.darwin.world.*;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -97,14 +96,11 @@ public class ImageTileset extends AbstractTileset {
 	}
 
 	@Override
-	public void drawWorldObject(WorldObject o, Graphics g) {
-		int tileId = o.getImageId();
-		int fgColor = o.getFgColor();
-		int bgColor = o.getBgColor();
-		BufferedImage tileImage = tileCache.get(new TileImageProperties(tileId, fgColor, bgColor));
+	public void drawByImageId(int imageId, int fgColor, int bgColor, Graphics g) {
+		BufferedImage tileImage = tileCache.get(new TileImageProperties(imageId, fgColor, bgColor));
 		if(tileImage == null) {
-			tileImage = filterTile(tileId, createColorFilter(fgColor, bgColor));
-			tileCache.put(new TileImageProperties(tileId, fgColor, bgColor), tileImage);
+			tileImage = filterTile(imageId, createColorFilter(fgColor, bgColor));
+			tileCache.put(new TileImageProperties(imageId, fgColor, bgColor), tileImage);
 		}
 		drawTile(tileImage, g);
 	}
