@@ -82,7 +82,7 @@ public class LevelRenderer {
 				Point graphics = cellToGraphics(x,y);
 				Graphics shiftedG = g.create(graphics.x, graphics.y, tileSize.width, tileSize.height);
 				//((Graphics2D)shiftedG).translate(gx, gy); // done by g.create(x, y, width, height)
-				tileset.drawTileImage(levelToRender.getTile(x, y), shiftedG);
+				tileset.drawTile(levelToRender.getTile(x, y), shiftedG);
 			}
 		}
 	}

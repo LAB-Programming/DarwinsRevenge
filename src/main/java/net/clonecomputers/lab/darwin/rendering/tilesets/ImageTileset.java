@@ -21,35 +21,6 @@ public class ImageTileset extends AbstractTileset {
 	
 	private HashMap<TileImageProperties, BufferedImage> tileCache = new HashMap<TileImageProperties, BufferedImage>();
 	
-	private class TileImageProperties {
-		public final int tileId;
-		public final int fgColor;
-		public final int bgColor;
-		
-		public TileImageProperties(int tileId, int fgColor, int bgColor) {
-			this.tileId = tileId;
-			this.fgColor = fgColor;
-			this.bgColor = bgColor;
-		}
-		
-		@Override
-		public boolean equals(Object o) {
-			if(!(o instanceof TileImageProperties)) return false;
-			TileImageProperties tid = (TileImageProperties)o;
-			return tid.tileId == tileId && tid.fgColor == fgColor && tid.bgColor == bgColor;
-		}
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + bgColor;
-			result = prime * result + fgColor;
-			result = prime * result + tileId;
-			return result;
-		}
-	}
-	
 	public ImageTileset(Dimension tileSize, String... tilesetFiles)
 			throws IOException, IllegalArgumentException {
 		List<BufferedImage> tiles = new ArrayList<BufferedImage>(tilesetFiles.length * 256);
@@ -96,20 +67,20 @@ public class ImageTileset extends AbstractTileset {
 	}
 
 	@Override
-	public void drawByImageId(int imageId, int fgColor, int bgColor, Graphics g) {
-		BufferedImage tileImage = tileCache.get(new TileImageProperties(imageId, fgColor, bgColor));
+	public void drawTileImage(int tileId, int fgColor, int bgColor, Graphics g) {
+		BufferedImage tileImage = tileCache.get(new TileImageProperties(tileId, fgColor, bgColor));
 		if(tileImage == null) {
-			tileImage = filterTile(imageId, createColorFilter(fgColor, bgColor));
-			tileCache.put(new TileImageProperties(imageId, fgColor, bgColor), tileImage);
+			tileImage = filterTile(tileId, createColorFilter(fgColor, bgColor));
+			tileCache.put(new TileImageProperties(tileId, fgColor, bgColor), tileImage);
 		}
-		drawTile(tileImage, g);
+		drawImage(tileImage, g);
 	}
 	
 	public BufferedImage filterTile(int tileId, BufferedImageOp colorFilter) {
 		return colorFilter.filter(tiles[tileId], null);
 	}
 	
-	public void drawTile(BufferedImage coloredTile, Graphics g) {
+	public void drawImage(BufferedImage coloredTile, Graphics g) {
 		g.drawImage(coloredTile,
 				0, 0,
 				(int) (tileWidth*zoom), (int) (tileHeight*zoom),

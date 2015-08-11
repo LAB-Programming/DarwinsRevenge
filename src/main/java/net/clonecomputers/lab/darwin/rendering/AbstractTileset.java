@@ -7,11 +7,11 @@ import java.awt.*;
 public abstract class AbstractTileset implements Tileset {
 	
 	@Override
-	public void drawTileImage(Tile t, Graphics g) {
+	public void drawTile(Tile t, Graphics g) {
 		drawWorldObject(t.getTopmostObject(), g);
 	}
 	
 	public void drawWorldObject(WorldObject o, Graphics g) {
-		drawByImageId(o.getImageId(), o.getFgColor(), o.getBgColor(), g);
+		drawTileImage(o.getImageId(), o.getFgColor(), o.getBgColor(), g);
 	}
 }
