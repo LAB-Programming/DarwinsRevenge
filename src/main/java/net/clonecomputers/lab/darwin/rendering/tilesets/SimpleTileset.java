@@ -37,7 +37,7 @@ public class SimpleTileset extends AbstractTileset {
 	}
 	
 	@Override
-	public void drawTileImage(int tileId, int fgColor, int bgColor, Graphics g) {
+	public void drawTileImage(TileImageProperties t, Graphics g) {
 		throw new UnsupportedOperationException("SimpleTileset is outdated and should not be used!");
 	}
 

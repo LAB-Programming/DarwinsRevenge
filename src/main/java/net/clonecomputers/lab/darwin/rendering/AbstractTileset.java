@@ -12,6 +12,6 @@ public abstract class AbstractTileset implements Tileset {
 	}
 	
 	public void drawWorldObject(WorldObject o, Graphics g) {
-		drawTileImage(o.getImageId(), o.getFgColor(), o.getBgColor(), g);
+		drawTileImage(new TileImageProperties(o.getImageId(), o.getFgColor(), o.getBgColor()), g);
 	}
 }
